@@ -44,6 +44,9 @@
     <Compile Include="Acceso.cs" />
     <Compile Include="LoteMapper.cs" />
     <Compile Include="Mapper.cs" />
+    <Compile Include="RolCompuestoMapper.cs" />
+    <Compile Include="RolIndividualMapper.cs" />
+    <Compile Include="UsuarioMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ArticuloMapper.cs" />
     <Compile Include="SubastaMapper.cs" />

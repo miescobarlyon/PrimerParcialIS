@@ -24,5 +24,57 @@ namespace BE
 			set { nombre = value; }
 		}
 
+		private string apellido;
+
+		public string Apellido
+		{
+			get { return apellido; }
+			set { apellido = value; }
+		}
+
+		private string user;
+
+		public string User
+		{
+			get { return user; }
+			set { user = value; }
+		}
+
+		private string passwordHash;
+
+		public string PasswordHash
+		{
+			get { return passwordHash; }
+			set { passwordHash = value; }
+		}
+
+		private string salt;
+
+		public string Salt
+		{
+			get { return salt; }
+			set { salt = value; }
+		}
+
+		private int borrado;
+
+		public int Borrado
+		{
+			get { return borrado; }
+			set { borrado = value; }
+		}
+
+		private int bloqueado;
+
+		public int Bloqueado
+		{
+			get { return bloqueado; }
+			set { bloqueado = value; }
+		}
+
+		public override string ToString()
+		{
+			return user;
+		}
 	}
 }

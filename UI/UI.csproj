@@ -52,6 +52,12 @@
     <Compile Include="AdministrarOferta.Designer.cs">
       <DependentUpon>AdministrarOferta.cs</DependentUpon>
     </Compile>
+    <Compile Include="AdministrarRol.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AdministrarRol.Designer.cs">
+      <DependentUpon>AdministrarRol.cs</DependentUpon>
+    </Compile>
     <Compile Include="AdministrarSubasta.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -76,16 +82,37 @@
     <Compile Include="AgregarLote.Designer.cs">
       <DependentUpon>AgregarLote.cs</DependentUpon>
     </Compile>
+    <Compile Include="AgregarRolCompuesto.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AgregarRolCompuesto.Designer.cs">
+      <DependentUpon>AgregarRolCompuesto.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AgregarRolIndividual.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AgregarRolIndividual.Designer.cs">
+      <DependentUpon>AgregarRolIndividual.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="IniciarSesion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="IniciarSesion.Designer.cs">
+      <DependentUpon>IniciarSesion.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="AdministrarOferta.resx">
       <DependentUpon>AdministrarOferta.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AdministrarRol.resx">
+      <DependentUpon>AdministrarRol.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AdministrarSubasta.resx">
       <DependentUpon>AdministrarSubasta.cs</DependentUpon>
@@ -98,6 +125,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AgregarLote.resx">
       <DependentUpon>AgregarLote.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AgregarRolCompuesto.resx">
+      <DependentUpon>AgregarRolCompuesto.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AgregarRolIndividual.resx">
+      <DependentUpon>AgregarRolIndividual.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
