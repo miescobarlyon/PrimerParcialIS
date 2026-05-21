@@ -22,6 +22,14 @@ namespace UI
             InitializeComponent();
             _subastaManager = BLL.Subasta.GetInstance();
             interesado = BLL.SessionManager.GetInstancia().GetUsuario();
+            
+            if (interesado == null)
+            {
+                MessageBox.Show("Sesión no iniciada.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.Close();
+                return;
+            }
+            
             textBoxNombreOfertante.Text = interesado.Nombre;
             FormSubasta.SubastaAbierta += FormSubasta_SubastaAbierta;
         }
@@ -38,14 +46,53 @@ namespace UI
                 return;
 
             labelPrecioActual.Text = $"${subasta.PrecioActual}";
-            listBoxNotificaciones.Items.Add($"[{DateTime.Now:HH:mm:ss}] {evento}");
+            // Live notifications are always "new" — DB write handled in BLL.Subasta.Notificar
+            listBoxNotificaciones.Items.Add(
+                $"[EN VIVO] [{DateTime.Now:HH:mm:ss}] {evento}");
+
+            if (listBoxNotificaciones.Items.Count > 0)
+                listBoxNotificaciones.TopIndex = listBoxNotificaciones.Items.Count - 1;
         }
 
         private void AdministrarOferta_Load(object sender, EventArgs e)
         {
             _subastaManager = BLL.Subasta.GetInstance();
+
+            // Restore in-memory subscriptions for subastas still open
+            _subastaManager.RestaurarSuscripciones(this);
+
+            // Rebuild local HashSet from DB so the filter in Actualizar() works correctly
+            List<int> persisted = _subastaManager.ObtenerSubastasPersistadasDeUsuario();
+            foreach (int id in persisted)
+                subastasSuscritas.Add(id);
+
+            // Populate combo with open subastas
             comboBoxSubastas.DataSource = null;
             comboBoxSubastas.DataSource = _subastaManager.ListarAbiertas();
+
+            // Load stored notifications into the listbox
+            CargarNotificacionesGuardadas();
+        }
+
+        private void CargarNotificacionesGuardadas()
+        {
+            List<BE.Notificacion> guardadas = _subastaManager.ObtenerNotificacionesGuardadas();
+
+            listBoxNotificaciones.Items.Clear();
+
+            foreach (BE.Notificacion n in guardadas)
+            {
+                string prefijo = n.Leida ? "[LEÍDA]" : "[NUEVA]";
+                listBoxNotificaciones.Items.Add(
+                    $"{prefijo} [{n.Fecha:dd/MM/yyyy HH:mm:ss}] {n.Mensaje}");
+            }
+
+            // Mark all as read now that user has seen them
+            _subastaManager.MarcarNotificacionesLeidas();
+
+            // Scroll to bottom so newest entries are visible
+            if (listBoxNotificaciones.Items.Count > 0)
+                listBoxNotificaciones.TopIndex = listBoxNotificaciones.Items.Count - 1;
         }
 
         private void FormSubasta_SubastaAbierta(object sender, SubastaAbiertaEventArgs e)

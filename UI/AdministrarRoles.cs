@@ -75,6 +75,11 @@ namespace UI
             {
                 listBoxPermisosDelPerfil.DataSource = null;
                 labelMiembrosDelPerfil.Text = $"Permisos de '{perfil.Nombre}'";
+                
+                // Mostrar todos los permisos disponibles si el perfil no tiene permisos
+                List<BE.Permiso> todosLosPermisos = permisoService.Listar();
+                listBoxPermisos.DataSource = null;
+                listBoxPermisos.DataSource = todosLosPermisos;
                 return;
             }
 
@@ -82,6 +87,15 @@ namespace UI
             listBoxPermisosDelPerfil.DataSource = null;
             listBoxPermisosDelPerfil.DataSource = permisosActualizados;
             labelMiembrosDelPerfil.Text = $"Permisos de '{perfil.Nombre}'";
+
+            // Filtrar y mostrar solo los permisos que NO están asignados al perfil
+            List<BE.Permiso> todosLosPermisos2 = permisoService.Listar();
+            List<BE.Permiso> permisosDisponibles = todosLosPermisos2
+                .Where(p => !perfil.Permisos.Any(pp => pp.Id == p.Id))
+                .ToList();
+            
+            listBoxPermisos.DataSource = null;
+            listBoxPermisos.DataSource = permisosDisponibles;
         }
 
         private void CargarDetalles()
@@ -118,6 +132,8 @@ namespace UI
                 buttonQuitarPermiso.Enabled = false;
                 listBoxPermisosDelPerfil.DataSource = null;
                 labelMiembrosDelPerfil.Text = "Permisos de...";
+                // Mostrar todos los permisos cuando se selecciona un permiso individual
+                CargarLista();
             }
         }
 
@@ -168,7 +184,6 @@ namespace UI
                 perfilService.Guardar(perfilSeleccionado);
 
                 CargarArbol();
-                CargarLista();
 
                 TreeNode nodoActualizado = treeViewPerfiles.SelectedNode;
                 if (nodoActualizado?.Tag is BE.Perfil perfilActualizado)
@@ -214,7 +229,6 @@ namespace UI
                 perfilService.Guardar(perfilSeleccionado);
 
                 CargarArbol();
-                CargarLista();
 
                 TreeNode nodoActualizado = treeViewPerfiles.SelectedNode;
                 if (nodoActualizado?.Tag is BE.Perfil perfilActualizado)

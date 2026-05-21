@@ -44,6 +44,7 @@
     <Compile Include="Acceso.cs" />
     <Compile Include="LoteMapper.cs" />
     <Compile Include="Mapper.cs" />
+    <Compile Include="NotificacionMapper.cs" />
     <Compile Include="PerfilMapper.cs" />
     <Compile Include="PermisoMapper.cs" />
     <Compile Include="RolCompuestoMapper.cs" />

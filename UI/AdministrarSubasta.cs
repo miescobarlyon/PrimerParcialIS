@@ -16,6 +16,7 @@ namespace UI
 
         private BE.Subasta _subastaActual;
         private BLL.Subasta _subastaManager;
+        private HashSet<int> subastasSuscritas = new HashSet<int>();
 
         public FormSubasta() 
         {
@@ -30,6 +31,7 @@ namespace UI
             comboBoxUnidades.DisplayMember = "Nombre";
 
             SuscribirseASubastasAbiertas();
+            CargarNotificacionesGuardadas();
         }
 
         private void SuscribirseASubastasAbiertas()
@@ -38,6 +40,7 @@ namespace UI
             foreach (BE.Subasta subasta in subastasAbiertas)
             {
                 _subastaManager.Suscribir(subasta, this);
+                subastasSuscritas.Add(subasta.Id);
                 listBoxNotificaciones.Items.Add($"[{DateTime.Now:HH:mm:ss}] Suscrito a subasta existente: {subasta.Articulo.Nombre}");
             }
         }
@@ -61,10 +64,11 @@ namespace UI
                 _subastaActual = _subastaManager.Abrir(unidad, precioBase);
 
                 _subastaManager.Suscribir(_subastaActual, this);
+                subastasSuscritas.Add(_subastaActual.Id);
 
                 labelPrecioActual.Text = $"${_subastaActual.PrecioActual}";
                 listBoxNotificaciones.Items.Clear();
-                listBoxNotificaciones.Items.Add("Subasta abierta.");
+                listBoxNotificaciones.Items.Add($"[{DateTime.Now:HH:mm:ss}] Subasta abierta exitosamente para {unidad.Nombre}");
 
                 OnSubastaAbierta(_subastaActual);
             }
@@ -79,9 +83,14 @@ namespace UI
             try
             {
                 if (comboBoxUnidades.SelectedItem == null) return;
-                _subastaActual = comboBoxUnidades.SelectedItem as BE.Subasta;
+                BE.UnidadDeVenta unidad = (BE.UnidadDeVenta)comboBoxUnidades.SelectedItem;
+                _subastaActual = (from s in _subastaManager.ListarAbiertas()
+                                   where s.Articulo.Id == unidad.Id
+                                   select s).FirstOrDefault();
                 _subastaManager.Cerrar(_subastaActual);
                 _subastaManager.Desuscribir(_subastaActual, this);
+                if (_subastaActual != null)
+                    subastasSuscritas.Remove(_subastaActual.Id);
             }
             catch (Exception ex) { MessageBox.Show(ex.Message); }
         }
@@ -93,8 +102,16 @@ namespace UI
                 Invoke(new Action(() => Actualizar(subasta, evento)));
                 return;
             }
+
+            // Only update if admin is subscribed to this auction
+            if (!subastasSuscritas.Contains(subasta.Id))
+                return;
+
             labelPrecioActual.Text = $"${subasta.PrecioActual}";
             listBoxNotificaciones.Items.Add($"[{DateTime.Now:HH:mm:ss}] {evento}");
+
+            if (listBoxNotificaciones.Items.Count > 0)
+                listBoxNotificaciones.TopIndex = listBoxNotificaciones.Items.Count - 1;
         }
 
         protected virtual void OnSubastaAbierta(BE.Subasta subasta)
@@ -109,6 +126,29 @@ namespace UI
                 _subastaActual = comboBoxUnidades.SelectedItem as BE.Subasta;
             }
         }
+
+        private void CargarNotificacionesGuardadas()
+        {
+            BLL.Subasta _subastaManager = BLL.Subasta.GetInstance();
+            List<BE.Notificacion> guardadas = _subastaManager.ObtenerNotificacionesGuardadas();
+
+            listBoxNotificaciones.Items.Clear();
+
+            foreach (BE.Notificacion n in guardadas)
+            {
+                string prefijo = n.Leida ? "[LEÍDA]" : "[NUEVA]";
+                listBoxNotificaciones.Items.Add(
+                    $"{prefijo} [{n.Fecha:dd/MM/yyyy HH:mm:ss}] {n.Mensaje}");
+            }
+
+            // Mark all as read now that user has seen them
+            _subastaManager.MarcarNotificacionesLeidas();
+
+            // Scroll to bottom so newest entries are visible
+            if (listBoxNotificaciones.Items.Count > 0)
+                listBoxNotificaciones.TopIndex = listBoxNotificaciones.Items.Count - 1;
+        }
+
     }
 
     public class SubastaAbiertaEventArgs : EventArgs
@@ -120,4 +160,5 @@ namespace UI
             SubastaAbierta = subasta;
         }
     }
+
 }

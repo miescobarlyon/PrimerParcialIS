@@ -13,8 +13,8 @@ namespace DAL
         private ArticuloMapper articuloMapper;
         private LoteMapper loteMapper;
 
-        public SubastaMapper() 
-        { 
+        public SubastaMapper()
+        {
             acceso = new ACCESO();
             articuloMapper = new ArticuloMapper();
             loteMapper = new LoteMapper();
@@ -31,8 +31,7 @@ namespace DAL
                     acceso.CrearParametro("@precio_inicial", obj.PrecioActual.ToString())
                 };
 
-                DataTable t = acceso.Leer("InsertarSubasta", p);
-                return t.Rows.Count > 0 ? Convert.ToInt32(t.Rows[0][0]) : -1;
+                return acceso.Escribir("InsertarSubasta", p);
             }
             finally { acceso.Cerrar(); }
         }
@@ -52,6 +51,33 @@ namespace DAL
                 return acceso.Escribir("RegistrarOferta", p);
             }
             finally { acceso.Cerrar(); }
+        }
+
+        public List<BE.Oferta> ListarOfertas(BE.Subasta subasta)
+        {
+            List<BE.Oferta> ofertas = new List<BE.Oferta>();
+            UsuarioMapper usuarioMapper = new UsuarioMapper();
+            try
+            {
+                acceso.Abrir();
+                var p = new List<SqlParameter>
+                {
+                    acceso.CrearParametro("@id_subasta", subasta.Id)
+                };
+                DataTable t = acceso.Leer("ListarOfertasPorSubasta", p);
+                foreach (DataRow row in t.Rows)
+                {
+                    ofertas.Add(new BE.Oferta
+                    {
+                        Id = Convert.ToInt32(row["id_oferta"]),
+                        Ofertante = usuarioMapper.TraerPorId(Convert.ToInt32(row["id_ofertante"])),
+                        Monto = Convert.ToSingle(row["monto"]),
+                        FechaHora = Convert.ToDateTime(row["fecha"])
+                    });
+                }
+            }
+            finally { acceso.Cerrar(); }
+            return ofertas;
         }
 
         public int CerrarSubasta(BE.Subasta subasta)
@@ -77,6 +103,7 @@ namespace DAL
         public override List<BE.Subasta> Listar()
         {
             List<BE.Subasta> subastas = new List<BE.Subasta>();
+            UsuarioMapper usuarioMapper = new UsuarioMapper();
 
             try
             {
@@ -94,7 +121,7 @@ namespace DAL
                         Articulo = unidad,
                         PrecioActual = Convert.ToSingle(row["precio_final"]),
                         Estado = (BE.EstadoSubasta)Enum.Parse(typeof(BE.EstadoSubasta), row["estado"].ToString()),
-                        Ganador = row["id_ganador"] != DBNull.Value ? new BE.Usuario { Id = Convert.ToInt32(row["id_ganador"]) } : null
+                        Ganador = row["id_ganador"] != DBNull.Value ? usuarioMapper.TraerPorId(Convert.ToInt32(row["id_ganador"])) : null
                     });
                 }
             }

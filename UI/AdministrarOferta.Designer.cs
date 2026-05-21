@@ -180,7 +180,7 @@
             this.groupBoxNotificaciones.Controls.Add(this.listBoxNotificaciones);
             this.groupBoxNotificaciones.Location = new System.Drawing.Point(492, 25);
             this.groupBoxNotificaciones.Name = "groupBoxNotificaciones";
-            this.groupBoxNotificaciones.Size = new System.Drawing.Size(380, 323);
+            this.groupBoxNotificaciones.Size = new System.Drawing.Size(564, 323);
             this.groupBoxNotificaciones.TabIndex = 5;
             this.groupBoxNotificaciones.TabStop = false;
             this.groupBoxNotificaciones.Text = "Notificaciones en tiempo real";
@@ -188,17 +188,18 @@
             // listBoxNotificaciones
             // 
             this.listBoxNotificaciones.FormattingEnabled = true;
+            this.listBoxNotificaciones.HorizontalScrollbar = true;
             this.listBoxNotificaciones.ItemHeight = 20;
             this.listBoxNotificaciones.Location = new System.Drawing.Point(12, 25);
             this.listBoxNotificaciones.Name = "listBoxNotificaciones";
-            this.listBoxNotificaciones.Size = new System.Drawing.Size(354, 284);
+            this.listBoxNotificaciones.Size = new System.Drawing.Size(539, 284);
             this.listBoxNotificaciones.TabIndex = 0;
             // 
             // AdministrarOferta
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(906, 450);
+            this.ClientSize = new System.Drawing.Size(1133, 450);
             this.Controls.Add(this.groupBoxSubasta);
             this.Controls.Add(this.groupBoxOfertar);
             this.Controls.Add(this.groupBoxNotificaciones);

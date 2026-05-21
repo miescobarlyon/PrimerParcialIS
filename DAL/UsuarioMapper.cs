@@ -86,6 +86,30 @@ namespace DAL
             return new Tuple<string, string>(hash, salt);
         }
 
+        public BE.Usuario TraerPorId(int id)
+        {
+            acceso = new ACCESO();
+            acceso.Abrir();
+            List<System.Data.SqlClient.SqlParameter> parametros = new List<System.Data.SqlClient.SqlParameter>();
+            parametros.Add(acceso.CrearParametro("@id", id));
+             DataTable tabla = acceso.Leer("TraerUsuarioPorId", parametros);
+            acceso.Cerrar();
+            if (tabla.Rows.Count == 0)
+                return null;
+
+            BE.Usuario usuario = new BE.Usuario();
+            usuario.Id = (int)tabla.Rows[0]["USUARIO_ID"];
+            usuario.Nombre = (string)tabla.Rows[0]["NOMBRE"];
+            usuario.Apellido = (string)tabla.Rows[0]["APELLIDO"];
+            usuario.User = (string)tabla.Rows[0]["USUARIO"];
+            usuario.Bloqueado = (int)tabla.Rows[0]["BLOQUEADO"];
+            usuario.Borrado = (int)tabla.Rows[0]["BORRADO"];
+
+            usuario.Perfiles = ObtenerPerfilesDelUsuario(usuario.Id);
+
+            return usuario;
+        }
+
         public BE.Usuario TraerUsuario(string user)
         {
             acceso = new ACCESO();

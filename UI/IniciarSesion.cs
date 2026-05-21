@@ -14,14 +14,19 @@ namespace UI
     {
         private BLL.UsuarioService usuarioService;
         private BLL.ErrorManagerService errorManager;
+        private static bool isErrorSubscribed = false;
 
         public IniciarSesion()
         {
             InitializeComponent();
             usuarioService = new BLL.UsuarioService();
             errorManager = BLL.ErrorManagerService.GetInstancia();
-            
-            errorManager.OnOcurrioError += MostrarError;
+
+            if (!isErrorSubscribed)
+            {
+                errorManager.OnOcurrioError += MostrarError;
+                isErrorSubscribed = true;
+            }
 
             textBoxContrasena.UseSystemPasswordChar = true;
         }
@@ -74,35 +79,10 @@ namespace UI
 
             if (loginExitoso)
             {
-                if (!VerificarAutorizacion())
-                {
-                    UserForm form = new UserForm();
-                    form.Show();
-                    this.Hide();
-
-                }
-                else
-                {
-                    FormAdmin formPrincipal = new FormAdmin();
-                    formPrincipal.Show();
-                    this.Hide();
-                }
-
+                MainForm mainForm = new MainForm();
+                mainForm.Show();
+                this.Hide();
             }
-        }
-
-        private bool VerificarAutorizacion()
-        {
-            BLL.SessionManager sessionManager = BLL.SessionManager.GetInstancia();
-            BE.Usuario usuarioActual = sessionManager.GetUsuario();
-
-            if (usuarioActual == null)
-                return false;
-
-            bool tieneAcceso = BLL.UsuarioService.TieneRol(usuarioActual, "Administrador") ||
-                               BLL.UsuarioService.TienePermiso(usuarioActual, "Acceso FormAdmin");
-
-            return tieneAcceso;
         }
 
         private void buttonSalir_Click(object sender, EventArgs e)
