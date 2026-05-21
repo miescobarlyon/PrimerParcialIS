@@ -77,7 +77,7 @@ namespace UI
             if (loginExitoso)
             {
                 errorManager.ManejarError("Login exitoso.", BE.EnumError.Info);
-                FormSubasta formPrincipal = new FormSubasta();
+                FormAdmin formPrincipal = new FormAdmin();
                 formPrincipal.Show();
                 this.Hide();
             }

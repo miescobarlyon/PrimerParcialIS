@@ -20,10 +20,6 @@ namespace UI
         public FormSubasta() 
         {
             InitializeComponent();
-            AdministrarOferta oferta = new AdministrarOferta();
-            oferta.Show();
-            oferta = new AdministrarOferta();
-            oferta.Show();
         }
 
         private void FormSubasta_Load(object sender, EventArgs e)
