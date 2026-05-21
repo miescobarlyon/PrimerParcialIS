@@ -48,10 +48,7 @@
     <Compile Include="Lote.cs" />
     <Compile Include="Oferta.cs" />
     <Compile Include="PerfilService.cs" />
-    <Compile Include="PermisoBase.cs" />
     <Compile Include="PermisoService.cs" />
-    <Compile Include="RolCompuesto.cs" />
-    <Compile Include="RolIndividual.cs" />
     <Compile Include="SecurityService.cs" />
     <Compile Include="SessionManager.cs" />
     <Compile Include="Subasta.cs" />
@@ -69,6 +66,9 @@
       <Project>{e4e5676a-f49e-4e37-86fd-d919e92a8aae}</Project>
       <Name>DAL</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

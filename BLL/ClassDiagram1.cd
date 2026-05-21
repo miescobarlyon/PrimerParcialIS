@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="BLL.Articulo" Collapsed="true">
+    <Position X="0.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAEQAABAAAAAAAAABAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Articulo.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BLL.ErrorManagerService" Collapsed="true">
+    <Position X="5.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAJAAAAAQAAAAAAAAAAAAAAAAAAAABAAEAAA=</HashCode>
+      <FileName>ErrorManagerService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BLL.Lote" Collapsed="true">
+    <Position X="2.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAEQAABgAAAAAQAABAACBAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Lote.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BLL.Oferta" Collapsed="true">
+    <Position X="7" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAgACAAAAAABAAAAAAAAAAAAgAAAAA=</HashCode>
+      <FileName>Oferta.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BLL.PerfilService">
+    <Position X="8.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEQAAAAAAAAAAAAIACAAAAAAAABABAAAAAg=</HashCode>
+      <FileName>PerfilService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BLL.PermisoService">
+    <Position X="5.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEQAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>PermisoService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BLL.SecurityService" Collapsed="true">
+    <Position X="7" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAEgQAAAAAAAAAAAAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>SecurityService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BLL.SessionManager" Collapsed="true">
+    <Position X="8.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAQAAQAAAIAAAgAAAAAAAAQRAAEAAA=</HashCode>
+      <FileName>SessionManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BLL.Subasta" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="5.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEBEgAAAAEAAAAAghCAIIAAABICEAAIABQAAAAACAAA=</HashCode>
+      <FileName>Subasta.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="BLL.UnidadDeVenta&lt;T&gt;" Collapsed="true">
+    <Position X="1.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAEQAABCAAAAAAAALAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>UnidadDeVenta.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BLL.UsuarioPerfilService" Collapsed="true">
+    <Position X="7" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAAAAAAAAEAAIEAAAAAAAAABAAQAIAAA=</HashCode>
+      <FileName>UsuarioPerfilService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BLL.UsuarioService" Collapsed="true">
+    <Position X="8.75" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAAEAAAAAAACAAAAgAAAgAAAIAAAIQAAAAACA=</HashCode>
+      <FileName>UsuarioService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="BLL.IObserver" Collapsed="true">
+    <Position X="5.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAA=</HashCode>
+      <FileName>IObserver.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="BLL.ISubject" Collapsed="true">
+    <Position X="7" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAACAAA=</HashCode>
+      <FileName>ISubject.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

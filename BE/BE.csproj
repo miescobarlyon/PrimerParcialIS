@@ -50,8 +50,7 @@
     <Compile Include="Oferta.cs" />
     <Compile Include="Perfil.cs" />
     <Compile Include="Permiso.cs" />
-    <Compile Include="RolCompuesto.cs" />
-    <Compile Include="RolIndividual.cs" />
+    <Compile Include="PermisoBase.cs" />
     <Compile Include="Subasta.cs" />
     <Compile Include="Usuario.cs" />
     <Compile Include="Lote.cs" />

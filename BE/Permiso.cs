@@ -6,23 +6,8 @@ using System.Threading.Tasks;
 
 namespace BE
 {
-    public class Permiso
+    public class Permiso : PermisoBase
     {
-        internal int id;
-
-        public int Id
-        {
-            get { return id; }
-            set { id = value; }
-        }
-
-        internal string nombre;
-
-        public string Nombre
-        {
-            get { return nombre; }
-            set { nombre = value; }
-        }
 
         internal string tipo;
 

@@ -119,8 +119,6 @@ namespace BLL
                         if (permiso.Nombre.Equals(nombrePermiso, StringComparison.OrdinalIgnoreCase))
                             return true;
 
-                        if (permiso is BE.RolIndividual rolIndividual && rolIndividual.Nombre.Equals(nombrePermiso, StringComparison.OrdinalIgnoreCase))
-                            return true;
                     }
                 }
             }

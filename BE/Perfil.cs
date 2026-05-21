@@ -6,24 +6,8 @@ using System.Threading.Tasks;
 
 namespace BE
 {
-    public class Perfil
+    public class Perfil : PermisoBase
     {
-        private int id;
-
-        public int Id
-        {
-            get { return id; }
-            set { id = value; }
-        }
-
-        private string nombre;
-
-        public string Nombre
-        {
-            get { return nombre; }
-            set { nombre = value; }
-        }
-
         private List<Permiso> permisos;
 
         public List<Permiso> Permisos
