@@ -47,7 +47,9 @@
     <Compile Include="ISubject.cs" />
     <Compile Include="Lote.cs" />
     <Compile Include="Oferta.cs" />
+    <Compile Include="PerfilService.cs" />
     <Compile Include="PermisoBase.cs" />
+    <Compile Include="PermisoService.cs" />
     <Compile Include="RolCompuesto.cs" />
     <Compile Include="RolIndividual.cs" />
     <Compile Include="SecurityService.cs" />

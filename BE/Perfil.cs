@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace BE
 {
-    public class Permiso
+    public class Perfil
     {
-        internal int id;
+        private int id;
 
         public int Id
         {
@@ -16,7 +16,7 @@ namespace BE
             set { id = value; }
         }
 
-        internal string nombre;
+        private string nombre;
 
         public string Nombre
         {
@@ -24,17 +24,22 @@ namespace BE
             set { nombre = value; }
         }
 
-        internal string tipo;
+        private List<Permiso> permisos;
 
-        public string Tipo
+        public List<Permiso> Permisos
         {
-            get { return tipo; }
-            set { tipo = value; }
+            get { return permisos; }
+            set { permisos = value; }
+        }
+
+        public Perfil()
+        {
+            permisos = new List<Permiso>();
         }
 
         public override string ToString()
         {
-            return $"[{tipo}] {nombre}";
+            return Nombre;
         }
     }
 }
