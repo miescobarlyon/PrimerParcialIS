@@ -145,6 +145,7 @@
             // 
             this.textBoxNombreOfertante.Location = new System.Drawing.Point(16, 55);
             this.textBoxNombreOfertante.Name = "textBoxNombreOfertante";
+            this.textBoxNombreOfertante.ReadOnly = true;
             this.textBoxNombreOfertante.Size = new System.Drawing.Size(200, 26);
             this.textBoxNombreOfertante.TabIndex = 0;
             // 

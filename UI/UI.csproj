@@ -88,6 +88,10 @@
     <Compile Include="AgregarPerfil.Designer.cs">
       <DependentUpon>AgregarPerfil.cs</DependentUpon>
     </Compile>
+    <Compile Include="AsignarRoles.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AsignarRoles.Designer.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -108,6 +112,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForm.Designer.cs">
+      <DependentUpon>UserForm.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="AdministrarOferta.resx">
       <DependentUpon>AdministrarOferta.cs</DependentUpon>
     </EmbeddedResource>
@@ -129,6 +139,9 @@
     <EmbeddedResource Include="AgregarPerfil.resx">
       <DependentUpon>AgregarPerfil.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="AsignarRoles.resx">
+      <DependentUpon>AsignarRoles.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormAdmin.resx">
       <DependentUpon>FormAdmin.cs</DependentUpon>
     </EmbeddedResource>
@@ -141,6 +154,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="UserForm.resx">
+      <DependentUpon>UserForm.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

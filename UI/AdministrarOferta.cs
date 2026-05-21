@@ -21,7 +21,8 @@ namespace UI
         {
             InitializeComponent();
             _subastaManager = BLL.Subasta.GetInstance();
-            interesado = new BE.Usuario { Id = 1, Nombre = "Interesado" };
+            interesado = BLL.SessionManager.GetInstancia().GetUsuario();
+            textBoxNombreOfertante.Text = interesado.Nombre;
             FormSubasta.SubastaAbierta += FormSubasta_SubastaAbierta;
         }
 

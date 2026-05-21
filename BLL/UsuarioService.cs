@@ -113,5 +113,43 @@ namespace BLL
             DAL.UsuarioMapper mapper = new DAL.UsuarioMapper();
             mapper.BloquearUsuario(usuario);
         }
+
+        public static bool TienePermiso(BE.Usuario usuario, string nombrePermiso)
+        {
+            if (usuario == null || usuario.Perfiles == null || usuario.Perfiles.Count == 0)
+                return false;
+
+            foreach (BE.Perfil perfil in usuario.Perfiles)
+            {
+                if (perfil.Permisos != null)
+                {
+                    foreach (BE.Permiso permiso in perfil.Permisos)
+                    {
+                        if (permiso.Nombre.Equals(nombrePermiso, StringComparison.OrdinalIgnoreCase))
+                            return true;
+
+                        // Check for roles that contain the permission
+                        if (permiso is BE.RolIndividual rolIndividual && rolIndividual.Nombre.Equals(nombrePermiso, StringComparison.OrdinalIgnoreCase))
+                            return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        public static bool TieneRol(BE.Usuario usuario, string nombreRol)
+        {
+            if (usuario == null || usuario.Perfiles == null || usuario.Perfiles.Count == 0)
+                return false;
+
+            foreach (BE.Perfil perfil in usuario.Perfiles)
+            {
+                if (perfil.Nombre.Equals(nombreRol, StringComparison.OrdinalIgnoreCase))
+                    return true;
+            }
+
+            return false;
+        }
     }
 }

@@ -72,6 +72,19 @@ namespace BE
 			set { bloqueado = value; }
 		}
 
+		private List<Perfil> perfiles;
+
+		public List<Perfil> Perfiles
+		{
+			get { return perfiles; }
+			set { perfiles = value; }
+		}
+
+		public Usuario()
+		{
+			perfiles = new List<Perfil>();
+		}
+
 		public override string ToString()
 		{
 			return user;

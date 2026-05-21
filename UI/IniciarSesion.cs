@@ -21,10 +21,8 @@ namespace UI
             usuarioService = new BLL.UsuarioService();
             errorManager = BLL.ErrorManagerService.GetInstancia();
             
-            // Suscribirse al evento de error
             errorManager.OnOcurrioError += MostrarError;
 
-            // La contraseña se oculta por defecto
             textBoxContrasena.UseSystemPasswordChar = true;
         }
 
@@ -76,11 +74,35 @@ namespace UI
 
             if (loginExitoso)
             {
-                errorManager.ManejarError("Login exitoso.", BE.EnumError.Info);
-                FormAdmin formPrincipal = new FormAdmin();
-                formPrincipal.Show();
-                this.Hide();
+                if (!VerificarAutorizacion())
+                {
+                    UserForm form = new UserForm();
+                    form.Show();
+                    this.Hide();
+
+                }
+                else
+                {
+                    FormAdmin formPrincipal = new FormAdmin();
+                    formPrincipal.Show();
+                    this.Hide();
+                }
+
             }
+        }
+
+        private bool VerificarAutorizacion()
+        {
+            BLL.SessionManager sessionManager = BLL.SessionManager.GetInstancia();
+            BE.Usuario usuarioActual = sessionManager.GetUsuario();
+
+            if (usuarioActual == null)
+                return false;
+
+            bool tieneAcceso = BLL.UsuarioService.TieneRol(usuarioActual, "Administrador") ||
+                               BLL.UsuarioService.TienePermiso(usuarioActual, "Acceso FormAdmin");
+
+            return tieneAcceso;
         }
 
         private void buttonSalir_Click(object sender, EventArgs e)

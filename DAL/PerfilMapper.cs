@@ -237,5 +237,90 @@ namespace DAL
                 acceso.Cerrar();
             }
         }
+
+        public int AsignarPerfilAUsuario(int idUsuario, int idPerfil)
+        {
+            try
+            {
+                acceso.Abrir();
+
+                List<SqlParameter> parametros = new List<SqlParameter>
+                {
+                    acceso.CrearParametro("@id_usuario", idUsuario),
+                    acceso.CrearParametro("@id_perfil", idPerfil)
+                };
+
+                int resultado = acceso.Escribir("AsignarPerfilAUsuario", parametros);
+                return resultado;
+            }
+            catch (Exception)
+            {
+                return -1;
+            }
+            finally
+            {
+                acceso.Cerrar();
+            }
+        }
+
+        public int RemoverPerfilDeUsuario(int idUsuario, int idPerfil)
+        {
+            try
+            {
+                acceso.Abrir();
+
+                List<SqlParameter> parametros = new List<SqlParameter>
+                {
+                    acceso.CrearParametro("@id_usuario", idUsuario),
+                    acceso.CrearParametro("@id_perfil", idPerfil)
+                };
+
+                int resultado = acceso.Escribir("RemoverPerfilDelUsuario", parametros);
+                return resultado;
+            }
+            catch (Exception)
+            {
+                return -1;
+            }
+            finally
+            {
+                acceso.Cerrar();
+            }
+        }
+
+        public List<BE.Perfil> ObtenerPerfilesDeUsuario(int idUsuario)
+        {
+            List<BE.Perfil> perfiles = new List<BE.Perfil>();
+
+            try
+            {
+                acceso.Abrir();
+
+                List<SqlParameter> parametros = new List<SqlParameter>
+                {
+                    acceso.CrearParametro("@id_usuario", idUsuario)
+                };
+
+                DataTable tabla = acceso.Leer("ObtenerPerfilesDelUsuario", parametros);
+
+                foreach (DataRow fila in tabla.Rows)
+                {
+                    BE.Perfil p = new BE.Perfil();
+                    p.Id = Convert.ToInt32(fila["PERFIL_ID"]);
+                    p.Nombre = fila["NOMBRE"].ToString();
+                    perfiles.Add(p);
+                }
+            }
+            catch (Exception)
+            {
+                perfiles = new List<BE.Perfil>();
+            }
+            finally
+            {
+                acceso.Cerrar();
+            }
+
+            return perfiles;
+        }
     }
 }

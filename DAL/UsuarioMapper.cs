@@ -108,7 +108,85 @@ namespace DAL
             usuario.User = (string)tabla.Rows[0]["USUARIO"];
             usuario.Bloqueado = (int)tabla.Rows[0]["BLOQUEADO"];
 
+            // Load user profiles/roles
+            usuario.Perfiles = ObtenerPerfilesDelUsuario(usuario.Id);
+
             return usuario;
+        }
+
+        public List<BE.Perfil> ObtenerPerfilesDelUsuario(int idUsuario)
+        {
+            List<BE.Perfil> perfiles = new List<BE.Perfil>();
+
+            try
+            {
+                acceso = new ACCESO();
+                acceso.Abrir();
+
+                List<System.Data.SqlClient.SqlParameter> parametros = new List<System.Data.SqlClient.SqlParameter>();
+                parametros.Add(acceso.CrearParametro("@id_usuario", idUsuario));
+
+                DataTable tabla = acceso.Leer("ObtenerPerfilesDelUsuario", parametros);
+                acceso.Cerrar();
+
+                PerfilMapper perfilMapper = new PerfilMapper();
+
+                foreach (DataRow fila in tabla.Rows)
+                {
+                    int idPerfil = Convert.ToInt32(fila["PERFIL_ID"]);
+                    BE.Perfil perfil = perfilMapper.ObtenerPorId(idPerfil);
+                    if (perfil != null)
+                        perfiles.Add(perfil);
+                }
+            }
+            catch (Exception)
+            {
+                perfiles = new List<BE.Perfil>();
+            }
+
+            return perfiles;
+        }
+
+        public int AsignarPerfilAUsuario(int idUsuario, int idPerfil)
+        {
+            try
+            {
+                acceso = new ACCESO();
+                acceso.Abrir();
+
+                List<System.Data.SqlClient.SqlParameter> parametros = new List<System.Data.SqlClient.SqlParameter>();
+                parametros.Add(acceso.CrearParametro("@id_usuario", idUsuario));
+                parametros.Add(acceso.CrearParametro("@id_perfil", idPerfil));
+
+                int resultado = acceso.Escribir("AsignarPerfilAUsuario", parametros);
+                acceso.Cerrar();
+                return resultado;
+            }
+            catch (Exception)
+            {
+                return -1;
+            }
+        }
+
+        public int RemoverPerfilDelUsuario(int idUsuario, int idPerfil)
+        {
+            try
+            {
+                acceso = new ACCESO();
+                acceso.Abrir();
+
+                List<System.Data.SqlClient.SqlParameter> parametros = new List<System.Data.SqlClient.SqlParameter>();
+                parametros.Add(acceso.CrearParametro("@id_usuario", idUsuario));
+                parametros.Add(acceso.CrearParametro("@id_perfil", idPerfil));
+
+                int resultado = acceso.Escribir("RemoverPerfilDelUsuario", parametros);
+                acceso.Cerrar();
+                return resultado;
+            }
+            catch (Exception)
+            {
+                return -1;
+            }
         }
 
         public int TraerIntentos(BE.Usuario usuario)
