@@ -16,9 +16,6 @@ namespace DAL
             acceso = new ACCESO();
         }
 
-        /// <summary>
-        /// Persist a subscription for a user+subasta pair
-        /// </summary>
         public int InsertarSuscripcion(int idUsuario, int idSubasta)
         {
             acceso = new ACCESO();
@@ -45,9 +42,6 @@ namespace DAL
             }
         }
 
-        /// <summary>
-        /// Remove a subscription
-        /// </summary>
         public int EliminarSuscripcion(int idUsuario, int idSubasta)
         {
             acceso = new ACCESO();
@@ -73,9 +67,6 @@ namespace DAL
             }
         }
 
-        /// <summary>
-        /// Get all subasta IDs a user is subscribed to
-        /// </summary>
         public List<int> ObtenerSubastasDeUsuario(int idUsuario)
         {
             acceso = new ACCESO();
@@ -107,9 +98,6 @@ namespace DAL
             }
         }
 
-        /// <summary>
-        /// Get all user IDs subscribed to a specific subasta
-        /// </summary>
         public List<int> ObtenerUsuariosSuscritos(int idSubasta)
         {
             acceso = new ACCESO();
@@ -141,9 +129,6 @@ namespace DAL
             }
         }
 
-        /// <summary>
-        /// Store a notification for one user
-        /// </summary>
         public int InsertarNotificacion(int idUsuario, int idSubasta, string mensaje)
         {
             acceso = new ACCESO();
@@ -171,9 +156,6 @@ namespace DAL
             }
         }
 
-        /// <summary>
-        /// Get all stored notifications for a user (read + unread)
-        /// </summary>
         public List<BE.Notificacion> ObtenerNotificaciones(int idUsuario)
         {
             acceso = new ACCESO();
@@ -212,9 +194,6 @@ namespace DAL
             }
         }
 
-        /// <summary>
-        /// Mark all notifications for a user as read
-        /// </summary>
         public int MarcarLeidas(int idUsuario)
         {
             acceso = new ACCESO();
@@ -239,9 +218,6 @@ namespace DAL
             }
         }
 
-        /// <summary>
-        /// Remove all stored notifications for a user+subasta (called on unsubscribe)
-        /// </summary>
         public int EliminarNotificacionesDeSubasta(int idUsuario, int idSubasta)
         {
             acceso = new ACCESO();

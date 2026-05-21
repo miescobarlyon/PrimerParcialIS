@@ -46,7 +46,6 @@ namespace UI
                 return;
 
             labelPrecioActual.Text = $"${subasta.PrecioActual}";
-            // Live notifications are always "new" — DB write handled in BLL.Subasta.Notificar
             listBoxNotificaciones.Items.Add(
                 $"[EN VIVO] [{DateTime.Now:HH:mm:ss}] {evento}");
 
@@ -57,20 +56,15 @@ namespace UI
         private void AdministrarOferta_Load(object sender, EventArgs e)
         {
             _subastaManager = BLL.Subasta.GetInstance();
-
-            // Restore in-memory subscriptions for subastas still open
             _subastaManager.RestaurarSuscripciones(this);
 
-            // Rebuild local HashSet from DB so the filter in Actualizar() works correctly
             List<int> persisted = _subastaManager.ObtenerSubastasPersistadasDeUsuario();
             foreach (int id in persisted)
                 subastasSuscritas.Add(id);
 
-            // Populate combo with open subastas
             comboBoxSubastas.DataSource = null;
             comboBoxSubastas.DataSource = _subastaManager.ListarAbiertas();
 
-            // Load stored notifications into the listbox
             CargarNotificacionesGuardadas();
         }
 
@@ -87,10 +81,8 @@ namespace UI
                     $"{prefijo} [{n.Fecha:dd/MM/yyyy HH:mm:ss}] {n.Mensaje}");
             }
 
-            // Mark all as read now that user has seen them
             _subastaManager.MarcarNotificacionesLeidas();
 
-            // Scroll to bottom so newest entries are visible
             if (listBoxNotificaciones.Items.Count > 0)
                 listBoxNotificaciones.TopIndex = listBoxNotificaciones.Items.Count - 1;
         }
@@ -195,6 +187,18 @@ namespace UI
             catch (Exception ex) 
             { 
                 MessageBox.Show(ex.Message, "Error"); 
+            }
+        }
+
+        private void comboBoxSubastas_SelectedValueChanged(object sender, EventArgs e)
+        {
+            if (comboBoxSubastas.SelectedItem != null)
+            {
+                BE.Subasta subasta = comboBoxSubastas.SelectedItem as BE.Subasta;
+                if (subasta != null)
+                {
+                    labelPrecioActual.Text = $"${subasta.PrecioActual}";
+                }
             }
         }
     }

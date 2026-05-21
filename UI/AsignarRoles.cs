@@ -47,7 +47,6 @@ namespace UI
             List<BE.Perfil> todosLosPerfiles = _service.ListarPerfiles();
             List<BE.Perfil> perfilesDelUsuario = _service.ListarPerfilesDeUsuario(usuario);
 
-            // Filter: show only profiles NOT already assigned to this user
             List<BE.Perfil> perfilesDisponibles = todosLosPerfiles
                 .Where(p => !perfilesDelUsuario.Any(pu => pu.Id == p.Id))
                 .ToList();

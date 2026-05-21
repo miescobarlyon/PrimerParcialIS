@@ -13,7 +13,7 @@ namespace UI
     public partial class MainForm : Form
     {
         private BLL.ErrorManagerService errorManager;
-        private static bool isErrorSubscribed = false;
+        private static bool isErrorSubscribed = true;
 
         public MainForm()
         {
@@ -23,7 +23,7 @@ namespace UI
             if (!isErrorSubscribed)
             {
                 errorManager.OnOcurrioError += MostrarError;
-                isErrorSubscribed = true;
+                isErrorSubscribed = false;
             }
         }
 

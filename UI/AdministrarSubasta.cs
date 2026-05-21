@@ -67,7 +67,6 @@ namespace UI
                 subastasSuscritas.Add(_subastaActual.Id);
 
                 labelPrecioActual.Text = $"${_subastaActual.PrecioActual}";
-                listBoxNotificaciones.Items.Clear();
                 listBoxNotificaciones.Items.Add($"[{DateTime.Now:HH:mm:ss}] Subasta abierta exitosamente para {unidad.Nombre}");
 
                 OnSubastaAbierta(_subastaActual);
@@ -83,14 +82,24 @@ namespace UI
             try
             {
                 if (comboBoxUnidades.SelectedItem == null) return;
-                BE.UnidadDeVenta unidad = (BE.UnidadDeVenta)comboBoxUnidades.SelectedItem;
+                BE.UnidadDeVenta unidad = (BE.UnidadDeVenta)comboBoxUnidades.SelectedItem;                
+
                 _subastaActual = (from s in _subastaManager.ListarAbiertas()
                                    where s.Articulo.Id == unidad.Id
                                    select s).FirstOrDefault();
+
+                if (_subastaActual == null)
+                {
+                    MessageBox.Show($"No hay una subasta abierta para '{unidad.Nombre}'.", "Error al cerrar subasta");
+                    return;
+                }
+
                 _subastaManager.Cerrar(_subastaActual);
-                _subastaManager.Desuscribir(_subastaActual, this);
+                
                 if (_subastaActual != null)
                     subastasSuscritas.Remove(_subastaActual.Id);
+                    
+                _subastaManager.Desuscribir(_subastaActual, this);
             }
             catch (Exception ex) { MessageBox.Show(ex.Message); }
         }
@@ -103,7 +112,6 @@ namespace UI
                 return;
             }
 
-            // Only update if admin is subscribed to this auction
             if (!subastasSuscritas.Contains(subasta.Id))
                 return;
 
@@ -124,6 +132,10 @@ namespace UI
             if (comboBoxUnidades.SelectedItem != null)
             {
                 _subastaActual = comboBoxUnidades.SelectedItem as BE.Subasta;
+                if (_subastaActual != null)
+                {
+                    labelPrecioActual.Text = $"${_subastaActual.PrecioActual}";
+                }
             }
         }
 
@@ -141,10 +153,8 @@ namespace UI
                     $"{prefijo} [{n.Fecha:dd/MM/yyyy HH:mm:ss}] {n.Mensaje}");
             }
 
-            // Mark all as read now that user has seen them
             _subastaManager.MarcarNotificacionesLeidas();
 
-            // Scroll to bottom so newest entries are visible
             if (listBoxNotificaciones.Items.Count > 0)
                 listBoxNotificaciones.TopIndex = listBoxNotificaciones.Items.Count - 1;
         }

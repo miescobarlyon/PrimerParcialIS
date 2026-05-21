@@ -22,7 +22,6 @@ namespace UI
 
         private void FormAdmin_Load(object sender, EventArgs e)
         {
-            // Check authorization before showing the form
             if (!VerificarAutorizacion())
             {
                 MessageBox.Show("No tiene permisos para acceder al panel administrativo.", "Acceso Denegado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -30,7 +29,6 @@ namespace UI
                 return;
             }
 
-            // Load the default view on startup
             LoadForm(new FormSubasta());
         }
 
@@ -42,7 +40,6 @@ namespace UI
             if (usuarioActual == null)
                 return false;
 
-            // Check if user has "Administrador" role or "Acceso FormAdmin" permission
             bool tieneAcceso = BLL.UsuarioService.TieneRol(usuarioActual, "Administrador") ||
                                BLL.UsuarioService.TienePermiso(usuarioActual, "Acceso FormAdmin");
 

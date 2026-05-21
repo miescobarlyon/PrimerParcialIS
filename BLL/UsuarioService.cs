@@ -24,7 +24,6 @@ namespace BLL
         {
             try
             {
-                // Traer credenciales
                 var credenciales = mapperUsuario.TraerPass(user);
                 
                 if (credenciales == null)
@@ -36,10 +35,8 @@ namespace BLL
                 string hash = credenciales.Item1;
                 string salt = credenciales.Item2;
 
-                // Verificar contraseña
                 if (!SecurityService.Verify(passwordPlano, salt, hash))
                 {
-                    // Traer usuario para manejar intentos
                     BE.Usuario usuario = mapperUsuario.TraerUsuario(user);
                     
                     if (usuario == null)
@@ -48,14 +45,12 @@ namespace BLL
                         return false;
                     }
 
-                    // Verificar si ya está bloqueado
                     if (usuario.Bloqueado == 1)
                     {
                         errorManager.ManejarError("Usuario bloqueado. Contacte al administrador.", BE.EnumError.Advertencia);
                         return false;
                     }
 
-                    // Agregar intento
                     mapperUsuario.AgregarIntento(usuario);
                     int intentosActuales = mapperUsuario.TraerIntentos(usuario);
 
@@ -71,7 +66,6 @@ namespace BLL
                     return false;
                 }
 
-                // Contraseña correcta, traer usuario completo
                 BE.Usuario usuarioAutenticado = mapperUsuario.TraerUsuario(user);
 
                 if (usuarioAutenticado == null)
@@ -80,17 +74,14 @@ namespace BLL
                     return false;
                 }
 
-                // Verificar si está bloqueado
                 if (usuarioAutenticado.Bloqueado == 1)
                 {
                     errorManager.ManejarError("Usuario bloqueado. Contacte al administrador.", BE.EnumError.Advertencia);
                     return false;
                 }
 
-                // Reestablecer intentos
                 mapperUsuario.ReestablecerIntentos(usuarioAutenticado);
 
-                // Establecer sesión
                 sessionManager.Login(usuarioAutenticado);
 
                 return true;
@@ -128,7 +119,6 @@ namespace BLL
                         if (permiso.Nombre.Equals(nombrePermiso, StringComparison.OrdinalIgnoreCase))
                             return true;
 
-                        // Check for roles that contain the permission
                         if (permiso is BE.RolIndividual rolIndividual && rolIndividual.Nombre.Equals(nombrePermiso, StringComparison.OrdinalIgnoreCase))
                             return true;
                     }

@@ -34,7 +34,6 @@ namespace BLL
                 observadores.Add(observer);
             }
 
-            // Persist if we have a real user identity
             BE.Usuario usuario = SessionManager.GetInstancia().GetUsuario();
             if (usuario != null && subasta != null && subasta.Id > 0)
             {
@@ -61,18 +60,15 @@ namespace BLL
 
         public void Notificar(BE.Subasta subasta, string evento)
         {
-            // In-memory delivery to active observers
             foreach (IObserver observer in observadores)
             {
                 observer.Actualizar(subasta, evento);
             }
 
-            // Persistent delivery: write to DB for every user subscribed to this subasta
             if (subasta != null && subasta.Id > 0)
             {
                 DAL.NotificacionMapper mapper = new DAL.NotificacionMapper();
 
-                // Get all user IDs subscribed to this subasta from DB
                 List<int> usuarioIds = mapper.ObtenerUsuariosSuscritos(subasta.Id);
 
                 foreach (int uid in usuarioIds)
@@ -82,9 +78,6 @@ namespace BLL
             }
         }
 
-        /// <summary>
-        /// Restore in-memory subscriptions for subastas still open
-        /// </summary>
         public void RestaurarSuscripciones(IObserver observer)
         {
             BE.Usuario usuario = SessionManager.GetInstancia().GetUsuario();
@@ -99,16 +92,12 @@ namespace BLL
                 BE.Subasta subasta = abiertas.FirstOrDefault(s => s.Id == idSubasta);
                 if (subasta != null)
                 {
-                    // Re-add to in-memory observers without re-persisting (already in DB)
                     if (!observadores.Contains(observer))
                         observadores.Add(observer);
                 }
             }
         }
 
-        /// <summary>
-        /// Get stored notifications for the current user
-        /// </summary>
         public List<BE.Notificacion> ObtenerNotificacionesGuardadas()
         {
             BE.Usuario usuario = SessionManager.GetInstancia().GetUsuario();
@@ -118,9 +107,6 @@ namespace BLL
             return mapper.ObtenerNotificaciones(usuario.Id);
         }
 
-        /// <summary>
-        /// Mark all notifications for current user as read
-        /// </summary>
         public void MarcarNotificacionesLeidas()
         {
             BE.Usuario usuario = SessionManager.GetInstancia().GetUsuario();
@@ -130,9 +116,6 @@ namespace BLL
             mapper.MarcarLeidas(usuario.Id);
         }
 
-        /// <summary>
-        /// Get the list of subasta IDs the current user is subscribed to in the database
-        /// </summary>
         public List<int> ObtenerSubastasPersistadasDeUsuario()
         {
             BE.Usuario usuario = SessionManager.GetInstancia().GetUsuario();
@@ -142,9 +125,6 @@ namespace BLL
             return mapper.ObtenerSubastasDeUsuario(usuario.Id);
         }
 
-        /// <summary>
-        /// Count unread notifications for current user
-        /// </summary>
         public int ContarNoLeidas()
         {
             return ObtenerNotificacionesGuardadas().Count(n => !n.Leida);
@@ -169,7 +149,6 @@ namespace BLL
                 subasta.Ganador = ObtenerGanador(subasta);
                 mapper.CerrarSubasta(subasta);
 
-                // Create detailed closure notification with winner information
                 string resultado;
                 if (subasta.Ganador != null)
                 {
@@ -198,37 +177,30 @@ namespace BLL
             DAL.SubastaMapper mapper = new DAL.SubastaMapper();
             subasta.Id = mapper.Insertar(subasta);
 
-            // Get current user (admin)
             BE.Usuario usuarioActual = SessionManager.GetInstancia().GetUsuario();
 
-            // ✅ NEW: Admin auto-subscribes to their own auction to receive notifications
             if (usuarioActual != null && subasta.Id > 0)
             {
                 DAL.NotificacionMapper notificacionMapper = new DAL.NotificacionMapper();
                 notificacionMapper.InsertarSuscripcion(usuarioActual.Id, subasta.Id);
             }
 
-            // Notify all users that a new auction has opened
             string mensajeApertura = $"Nueva subasta abierta: {articulo.Nombre} | Precio base: ${precioBase}";
 
-            // Send to all active observers first
             foreach (IObserver observer in observadores)
             {
                 observer.Actualizar(subasta, mensajeApertura);
             }
 
-            // Persist notification for ALL users (so they see it even if not logged in)
             if (subasta != null && subasta.Id > 0 && usuarioActual != null)
             {
                 DAL.NotificacionMapper notificacionMapper = new DAL.NotificacionMapper();
 
-                // Get all users in the system to notify them of new auction
                 DAL.UsuarioMapper usuarioMapper = new DAL.UsuarioMapper();
                 List<BE.Usuario> todosLosUsuarios = usuarioMapper.Listar();
 
                 foreach (BE.Usuario usuario in todosLosUsuarios)
                 {
-                    // Include everyone (including admin) so they know about all auctions
                     notificacionMapper.InsertarNotificacion(usuario.Id, subasta.Id, mensajeApertura);
                 }
             }

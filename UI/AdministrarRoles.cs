@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -46,6 +46,19 @@ namespace UI
                 AgregarPermisos(nodoPerfil, perfil.Permisos);
             }
 
+            List<BE.Permiso> permisos = permisoService.Listar();
+
+            foreach (BE.Permiso permiso in permisos)
+            {
+                TreeNode nodoPermiso = new TreeNode(permiso.Nombre);
+                nodoPermiso.Tag = permiso;
+                if (!treeViewPerfiles.Nodes.Contains(nodoPermiso))
+                {
+                    treeViewPerfiles.Nodes.Add(nodoPermiso);
+                }
+                
+            }
+
             treeViewPerfiles.ExpandAll();
         }
 
@@ -76,7 +89,6 @@ namespace UI
                 listBoxPermisosDelPerfil.DataSource = null;
                 labelMiembrosDelPerfil.Text = $"Permisos de '{perfil.Nombre}'";
                 
-                // Mostrar todos los permisos disponibles si el perfil no tiene permisos
                 List<BE.Permiso> todosLosPermisos = permisoService.Listar();
                 listBoxPermisos.DataSource = null;
                 listBoxPermisos.DataSource = todosLosPermisos;
@@ -88,7 +100,6 @@ namespace UI
             listBoxPermisosDelPerfil.DataSource = permisosActualizados;
             labelMiembrosDelPerfil.Text = $"Permisos de '{perfil.Nombre}'";
 
-            // Filtrar y mostrar solo los permisos que NO están asignados al perfil
             List<BE.Permiso> todosLosPermisos2 = permisoService.Listar();
             List<BE.Permiso> permisosDisponibles = todosLosPermisos2
                 .Where(p => !perfil.Permisos.Any(pp => pp.Id == p.Id))
@@ -132,7 +143,6 @@ namespace UI
                 buttonQuitarPermiso.Enabled = false;
                 listBoxPermisosDelPerfil.DataSource = null;
                 labelMiembrosDelPerfil.Text = "Permisos de...";
-                // Mostrar todos los permisos cuando se selecciona un permiso individual
                 CargarLista();
             }
         }
@@ -160,7 +170,7 @@ namespace UI
 
             if (!(selectedNode.Tag is BE.Perfil perfilSeleccionado))
             {
-                MessageBox.Show("Por favor, seleccione un perfil válido.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Por favor, seleccione un perfil vÃ¡lido.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -191,7 +201,7 @@ namespace UI
                     CargarLista(perfilActualizado);
                 }
 
-                MessageBox.Show("Permiso agregado exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Permiso agregado exitosamente.", "Ã‰xito", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
@@ -211,7 +221,7 @@ namespace UI
 
             if (!(selectedNode.Tag is BE.Perfil perfilSeleccionado))
             {
-                MessageBox.Show("Por favor, seleccione un perfil válido.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Por favor, seleccione un perfil vÃ¡lido.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -236,7 +246,7 @@ namespace UI
                     CargarLista(perfilActualizado);
                 }
 
-                MessageBox.Show("Permiso eliminado exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Permiso eliminado exitosamente.", "Ã‰xito", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
@@ -256,13 +266,13 @@ namespace UI
 
             if (!(selectedNode.Tag is BE.Perfil perfilSeleccionado))
             {
-                MessageBox.Show("Por favor, seleccione un perfil válido.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Por favor, seleccione un perfil vÃ¡lido.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             DialogResult result = MessageBox.Show(
-                $"¿Está seguro de que desea eliminar el perfil '{perfilSeleccionado.Nombre}'?",
-                "Confirmar eliminación",
+                $"Â¿EstÃ¡ seguro de que desea eliminar el perfil '{perfilSeleccionado.Nombre}'?",
+                "Confirmar eliminaciÃ³n",
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Question
             );
@@ -275,7 +285,7 @@ namespace UI
                 perfilService.Eliminar(perfilSeleccionado);
                 CargarArbol();
                 CargarLista();
-                MessageBox.Show("Perfil eliminado exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Perfil eliminado exitosamente.", "Ã‰xito", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {

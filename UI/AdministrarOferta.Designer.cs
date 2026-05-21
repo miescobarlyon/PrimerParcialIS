@@ -89,6 +89,7 @@
             this.comboBoxSubastas.Name = "comboBoxSubastas";
             this.comboBoxSubastas.Size = new System.Drawing.Size(300, 28);
             this.comboBoxSubastas.TabIndex = 0;
+            this.comboBoxSubastas.SelectedValueChanged += new System.EventHandler(this.comboBoxSubastas_SelectedValueChanged);
             // 
             // buttonSuscribirse
             // 

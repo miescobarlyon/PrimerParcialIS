@@ -29,7 +29,6 @@ namespace BLL
 
         public bool AsignarPerfil(BE.Usuario usuario, BE.Perfil perfil)
         {
-            // Verifica si este usuario específico ya tiene asignado este perfil específico
             List<BE.Perfil> perfilesActuales = ListarPerfilesDeUsuario(usuario);
 
             if (perfilesActuales.Any(p => p.Id == perfil.Id))
@@ -38,7 +37,6 @@ namespace BLL
                 return false;
             }
 
-            // Varios usuarios PUEDEN tener el mismo perfil asignado, esto está permitido
             DAL.PerfilMapper mapper = new DAL.PerfilMapper();
             int resultado = mapper.AsignarPerfilAUsuario(usuario.Id, perfil.Id);
 
